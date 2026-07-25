@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     if (!isRedisConfigured() || !redis) {
       return NextResponse.json(
         {
-          error: "Upstash Redis credentials (UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN) are missing in environment variables.",
+          error: "Upstash Redis credentials are not configured correctly in environment variables.",
         },
         { status: 500 }
       );
@@ -98,8 +98,18 @@ export async function POST(req: NextRequest) {
     });
   } catch (error: any) {
     console.error("Error in /api/shorten:", error);
+    
+    // Security masking: Ensure API tokens/headers are never exposed in UI error responses
+    const rawMsg = error?.message || "";
+    if (rawMsg.includes("Bearer") || rawMsg.includes("header") || rawMsg.includes("token")) {
+      return NextResponse.json(
+        { error: "Invalid Upstash Redis Token. Please check for line breaks or duplicate text in your Vercel Environment Variables." },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json(
-      { error: error?.message || "An unexpected server error occurred. Please try again." },
+      { error: rawMsg || "An unexpected server error occurred. Please try again." },
       { status: 500 }
     );
   }
