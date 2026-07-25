@@ -10,7 +10,6 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Upstash Redis](https://img.shields.io/badge/Upstash_Redis-00E599?style=for-the-badge&logo=redis&logoColor=white)](https://upstash.com/)
-[![Vercel](https://img.shields.io/badge/Vercel_Deploy-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 ---
@@ -101,7 +100,7 @@ Creates a short link mapping in Upstash Redis.
 ```json
 {
   "code": "my-alias",
-  "shortUrl": "https://your-domain.vercel.app/my-alias",
+  "shortUrl": "https://your-domain/my-alias",
   "originalUrl": "https://example.com/very-long-url",
   "createdAt": 1721950000000,
   "isProtected": true,
@@ -135,8 +134,8 @@ Performs 302 redirect or renders password challenge screen.
 ### 1. Clone & Install Dependencies
 
 ```bash
-git clone https://github.com/your-username/url-shortener.git
-cd url-shortener
+git clone https://github.com/4bhiigit/URL_Shortner-Password-Protected-.git
+cd URL_Shortner-Password-Protected-
 npm install
 ```
 
@@ -156,38 +155,6 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
-
----
-
-<details>
-<summary><strong>📦 Deploy for Free on Vercel (Step-by-Step Guide)</strong></summary>
-
-<br />
-
-### Step 1: Push Code to GitHub
-
-```bash
-git init
-git add .
-git commit -m "Initial commit - LinkPulse URL Shortener"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/url-shortener.git
-git push -u origin main
-```
-
-### Step 2: Deploy on Vercel
-
-1. Log in to [Vercel](https://vercel.com) with GitHub.
-2. Click **Add New...** -> **Project**.
-3. Import your `url-shortener` repository.
-4. Add your **Environment Variables**:
-   - `UPSTASH_REDIS_REST_URL` ➜ *(Your Upstash REST URL)*
-   - `UPSTASH_REDIS_REST_TOKEN` ➜ *(Your Upstash REST Token)*
-5. Click **Deploy**.
-
-Vercel will build and publish your app live for 100% free!
-
-</details>
 
 ---
 
