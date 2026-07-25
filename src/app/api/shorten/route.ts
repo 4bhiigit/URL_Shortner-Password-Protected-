@@ -26,6 +26,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if (!isRedisConfigured() || !redis) {
+      return NextResponse.json(
+        {
+          error: "Upstash Redis credentials (UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN) are missing in environment variables.",
+        },
+        { status: 500 }
+      );
+    }
+
     let code = "";
 
     if (customAlias && typeof customAlias === "string" && customAlias.trim().length > 0) {
@@ -38,43 +47,28 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      if (isRedisConfigured() && redis) {
-        const existing = await redis.get(`url:${trimmedAlias}`);
-        if (existing) {
-          return NextResponse.json(
-            { error: "This custom alias is already taken. Try another one!" },
-            { status: 409 }
-          );
-        }
+      const existing = await redis.get(`url:${trimmedAlias}`);
+      if (existing) {
+        return NextResponse.json(
+          { error: "This custom alias is already taken. Try another one!" },
+          { status: 409 }
+        );
       }
       code = trimmedAlias;
     } else {
       code = generateShortCode();
-
-      if (isRedisConfigured() && redis) {
-        let attempts = 0;
-        while (attempts < 5) {
-          const existing = await redis.get(`url:${code}`);
-          if (!existing) break;
-          code = generateShortCode();
-          attempts++;
-        }
+      let attempts = 0;
+      while (attempts < 5) {
+        const existing = await redis.get(`url:${code}`);
+        if (!existing) break;
+        code = generateShortCode();
+        attempts++;
       }
-    }
-
-    if (!isRedisConfigured() || !redis) {
-      return NextResponse.json(
-        {
-          error: "Upstash Redis credentials are not configured.",
-        },
-        { status: 500 }
-      );
     }
 
     const ttlSeconds = typeof expiresIn === "number" && expiresIn > 0 ? expiresIn : 0;
     const expiresAt = ttlSeconds > 0 ? Date.now() + ttlSeconds * 1000 : undefined;
 
-    // Payload stored in Redis
     const dataPayload = {
       url,
       password: password && typeof password === "string" && password.trim() ? password.trim() : undefined,
@@ -82,11 +76,9 @@ export async function POST(req: NextRequest) {
       expiresAt,
     };
 
-    // Store in Upstash Redis
     await redis.set(`url:${code}`, JSON.stringify(dataPayload));
     await redis.set(`clicks:${code}`, 0);
 
-    // Apply expiration TTL if specified
     if (ttlSeconds > 0) {
       await redis.expire(`url:${code}`, ttlSeconds);
       await redis.expire(`clicks:${code}`, ttlSeconds);
@@ -107,7 +99,7 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error("Error in /api/shorten:", error);
     return NextResponse.json(
-      { error: "An unexpected server error occurred. Please try again." },
+      { error: error?.message || "An unexpected server error occurred. Please try again." },
       { status: 500 }
     );
   }
