@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #000000;
+  --foreground: #f8fafc;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  overflow-x: hidden;
+}
+
+/* 🌟 Rich Dark Theme Animations */
+
+/* 1. Aurora Mesh Gradient Rotation */
+@keyframes auroraRotate {
+  0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
+  50% { transform: rotate(180deg) scale(1.15); filter: hue-rotate(60deg); }
+  100% { transform: rotate(360deg) scale(1); filter: hue-rotate(0deg); }
+}
+
+/* 2. Cyber Laser Sweep Line */
+@keyframes laserSweep {
+  0% { top: -20%; opacity: 0; }
+  50% { opacity: 0.6; }
+  100% { top: 120%; opacity: 0; }
+}
+
+/* 3. Glowing Particle Pulse */
+@keyframes particlePulse {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.2); }
+}
+
+/* 4. Shimmer Sweep Effect */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
+}
+
+/* 5. Infinite Grid Scroll */
+@keyframes gridMove3D {
+  0% { background-position: 0 0; }
+  100% { background-position: 50px 50px; }
+}
+
+/* Helper Utilities */
+.animate-aurora {
+  animation: auroraRotate 20s linear infinite;
+}
+
+.animate-laser {
+  animation: laserSweep 6s ease-in-out infinite;
+}
+
+.animate-particle {
+  animation: particlePulse 4s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2.5s infinite linear;
+}
+
+/* Ultra Pitch Black Cyber Grid */
+.bg-cyber-grid-dark {
+  background-image: 
+    linear-gradient(to right, rgba(99, 102, 241, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(99, 102, 241, 0.08) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridMove3D 25s linear infinite;
+}
+
+/* Radial Dark Glow Overlay */
+.bg-radial-gradient-dark {
+  background: radial-gradient(circle at 50% 20%, rgba(99, 102, 241, 0.18) 0%, rgba(139, 92, 246, 0.12) 35%, rgba(0, 0, 0, 0.98) 75%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #18181b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #27272a;
+}

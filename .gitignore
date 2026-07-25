@@ -1,0 +1,31 @@
+# Dependencies
+/node_modules
+/.pnpm
+/.yarn
+
+# Next.js build output
+/.next/
+/out/
+/build
+
+# Debug & system logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment credentials (DO NOT COMMIT REAL CREDENTIALS)
+.env*.local
+.env
+.env.local
+
+# Vercel deployment folder
+.vercel
+
+# Archives & Temporary files
+*.zip
+Url-Shortener-Project.zip
+
+# TypeScript & IDE
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
